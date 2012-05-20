@@ -1,2 +1,10 @@
 #!/bin/bash
-# The logic to stop your application should be put in this script.
+# Load rbenv into shell session
+[[ -s "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv" ]] && source "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv"
+
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+
+# Start Phusion Passenger standalone
+passenger stop -p ${OPENSHIFT_INTERNAL_PORT} --pid-file "${OPENSHIFT_RUN_DIR}/passenger-${OPENSHIFT_INTERNAL_PORT}.pid"
+
+popd > /dev/null

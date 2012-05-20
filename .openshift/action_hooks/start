@@ -1,4 +1,10 @@
 #!/bin/bash
-# The logic to start up your application should be put in this
-# script. The application will work only if it binds to
-# $OPENSHIFT_INTERNAL_IP:8080
+# Load rbenv into shell session
+[[ -s "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv" ]] && source "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv"
+
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+
+# Start Phusion Passenger standalone
+passenger start -a ${OPENSHIFT_INTERNAL_IP} -p ${OPENSHIFT_INTERNAL_PORT} -e production -d --pid-file "${OPENSHIFT_RUN_DIR}passenger-${OPENSHIFT_INTERNAL_PORT}.pid" --nginx-runtime-dir "${OPENSHIFT_DATA_DIR}" --log-file "${OPENSHIFT_LOG_DIR}passenger-${OPENSHIFT_INTERNAL_PORT}.log"
+
+popd > /dev/null

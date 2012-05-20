@@ -10,3 +10,14 @@ if [ ! -d ${RBENV_ROOT}/versions/${RUBY_VERSION} ]; then
   rbenv bootstrap
   popd  >/dev/null
 fi
+
+# Install a patched phusion passenger that works on Openshift
+PASSENGER_BIN=`rbenv which passenger`
+PASSENGER_VERSION=3.0.12
+if [ -z ${PASSENGER_BIN} ]; then
+  pushd ${OPENSHIFT_TMP_DIR} >/dev/null
+  echo "Installing Phusion Passenger ${PASSENGER_VERSION}..."
+  curl -L -o passenger-${PASSENGER_VERSION}.gem https://github.com/downloads/yabawock/passenger/passenger-${PASSENGER_VERSION}.gem
+  gem install passenger-${PASSENGER_VERSION}.gem
+  popd  >/dev/null
+fi
