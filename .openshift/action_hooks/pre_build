@@ -1,0 +1,12 @@
+#!/bin/bash
+export RBENV_ROOT=$OPENSHIFT_DATA_DIR/.rbenv
+export PATH="$RBENV_ROOT/bin:$PATH"
+
+# Install rbenv if it is missing
+if [ ! -d ${RBENV_ROOT} ]; then
+  pushd ${OPENSHIFT_TMP_DIR} > /dev/null
+  echo "Installing rbenv..."
+
+  curl -L https://raw.github.com/yabawock/openshift-rbenv-installer/master/bin/rbenv-installer | bash -s
+  popd >/dev/null
+fi

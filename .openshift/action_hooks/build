@@ -1,0 +1,12 @@
+#!/bin/bash
+# Load rbenv into shell session
+[[ -s "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv" ]] && source "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv"
+
+# Install the requested ruby version
+if [ ! -d ${RBENV_ROOT}/versions/${RUBY_VERSION} ]; then
+  pushd ${OPENSHIFT_TMP_DIR} >/dev/null
+  rbenv install ${RUBY_VERSION}
+  rbenv global ${RUBY_VERSION}
+  rbenv bootstrap
+  popd  >/dev/null
+fi

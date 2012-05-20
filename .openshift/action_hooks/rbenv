@@ -1,0 +1,8 @@
+#!/bin/bash
+# Load rbenv into shell session
+if [ -d "$OPENSHIFT_DATA_DIR/.rbenv" ]; then
+  export RUBY_VERSION=1.9.3-p194
+  export RBENV_ROOT=$OPENSHIFT_DATA_DIR/.rbenv
+  export PATH="$RBENV_ROOT/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
