@@ -2,6 +2,14 @@
 # Load rbenv into shell session
 [[ -s "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv" ]] && source "${OPENSHIFT_REPO_DIR}.openshift/action_hooks/rbenv"
 
+# Check that we have a real database
+if [ -z $OPENSHIFT_DB_HOST ]; then
+    echo "Could not find postgres database.  Please run:"
+    echo "rhc app cartridge add -a $OPENSHIFT_APP_NAME -c postgres-8.4"
+    echo "and re-push your application afterwards"
+    exit 5
+fi
+
 # Bring the rails environment up speed
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 
